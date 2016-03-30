@@ -77,6 +77,12 @@ public class SwipePresenter {
     public static abstract class AutoLoadMoreListener extends RecyclerView.OnScrollListener implements OnLoadMoreListener {
         private boolean isLoadingMore = false;
 
+        private final int itemToLoad;
+
+        private AutoLoadMoreListener(int itemToLoad) {
+            this.itemToLoad = itemToLoad;
+        }
+
         @Override
         public final void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             int lastVisibleItem;
@@ -84,7 +90,8 @@ public class SwipePresenter {
             if (layoutManager instanceof LinearLayoutManager) {
                 lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             } else if (layoutManager instanceof StaggeredGridLayoutManager){
-                lastVisibleItem = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(new int[2])[1] * 2;
+                final int spanCount = ((StaggeredGridLayoutManager)layoutManager).getSpanCount();
+                lastVisibleItem = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(new int[spanCount])[spanCount - 1];
             } else if (layoutManager instanceof LayoutManager){
                 lastVisibleItem = ((LayoutManager) layoutManager).findLastVisibleItemPosition();
             } else {
@@ -94,7 +101,7 @@ public class SwipePresenter {
 
             final int totalItemCount = layoutManager.getItemCount();
 
-            if (lastVisibleItem >= totalItemCount - 4 && dy > 0 && !isLoadingMore) {
+            if (lastVisibleItem >= totalItemCount - itemToLoad && dy > 0 && !isLoadingMore) {
                 this.isLoadingMore = true;
                 onLoadMore(recyclerView);
             }

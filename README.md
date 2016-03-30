@@ -30,7 +30,8 @@ presenter = new SwipePresenter.Builder()
         .recyclerView(recyclerview)
         .emptyView(emptyView)
         .onRefresh(() -> { presenter.stopRefresh(); })
-        .onLoadMore(() -> { finishLoadingMore(); }) // or you can replace this with presenter.finishLoadingMore();
+        .onLoadMore(new SwipePresenter.AutoLoadMoreListener(4) { () -> { finishLoadingMore(); } })
+        // or you can replace this with presenter.finishLoadingMore();
         .build();
 ```
 Without lambda:
@@ -54,7 +55,7 @@ presenter = new SwipePresenter.Builder()
                 presenter.stopRefresh();
             }
         })
-        .onLoadMore(new SwipePresenter.AutoLoadMoreListener() {
+        .onLoadMore(new SwipePresenter.AutoLoadMoreListener(4) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
                 finishLoadingMore(); // or you can replace this with presenter.finishLoadingMore();
