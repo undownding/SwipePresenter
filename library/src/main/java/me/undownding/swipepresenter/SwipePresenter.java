@@ -58,7 +58,9 @@ public class SwipePresenter {
     }
 
     public final void finishRefresh() {
-        emptyView.setVisibility((recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) ? View.VISIBLE : View.GONE);
+        if (emptyView != null) {
+            emptyView.setVisibility((recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) ? View.VISIBLE : View.GONE);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
