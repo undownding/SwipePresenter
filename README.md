@@ -17,7 +17,7 @@ Usage
 --------
 
 I suggest using this library with lambda:
-```
+```java
 presenter = new SwipePresenter.Builder()
         .onCreated(()-> {
                 recyclerview.setLayoutManager(new StaggeredGridLayoutManager(
@@ -35,7 +35,7 @@ presenter = new SwipePresenter.Builder()
         .build();
 ```
 Without lambda:
-```
+```java
 presenter = new SwipePresenter.Builder()
         .onCreated(new Runnable() {
             @Override
